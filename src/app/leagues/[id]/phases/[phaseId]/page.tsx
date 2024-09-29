@@ -32,7 +32,7 @@ type RankingsType = {
 }
 export default function PhaseDetails({ params }: { params: { phaseId: number } }) {
     const phaseId = params.phaseId;
-    const [ranking, setRanking] = useState([] as RankType[]);
+    const [data, setData] = useState<RankingsType>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -43,7 +43,7 @@ export default function PhaseDetails({ params }: { params: { phaseId: number } }
                 const res = await fetch(`https://sportify.mediahuisgroup.com/api/v1/phases/${phaseId}/ranking?lang=nl`);
                 const data = await res.json() as RankingsType;
                 console.log(data);
-                setRanking(data.ranking);
+                setData(data);
                 setLoading(false);
             } catch (err) {
                 setError('Failed to load');
@@ -53,7 +53,7 @@ export default function PhaseDetails({ params }: { params: { phaseId: number } }
         fetchRanking();
     }, [phaseId]);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading || !data) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
     function createData(
@@ -68,7 +68,7 @@ export default function PhaseDetails({ params }: { params: { phaseId: number } }
         return { ranking, name, matchesWon, matchesLost, matchesDraw, matchesPlayed, points };
     }
 
-    const rows = ranking.map((rankings) => (
+    const rows = data.ranking.map((rankings) => (
         createData(
             rankings.ranking,
             rankings.team.name,
@@ -80,12 +80,9 @@ export default function PhaseDetails({ params }: { params: { phaseId: number } }
         )
     ));
 
-
-
-
     return (
         <div>
-            <h2>Ranking 1</h2>
+            <h2>{data.phaseName}</h2>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
