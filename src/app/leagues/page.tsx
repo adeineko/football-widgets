@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function LeaguesPage() {
   const [leagues, setLeagues] = useState([]);
-  const [selectedLeague, setSelectedLeague] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,13 +35,12 @@ export default function LeaguesPage() {
       <ul>
         {leagues.map((league) => (
           <li key={league.id}>
-            <button onClick={() => setSelectedLeague(league.id)}>
-              {league.name}
-            </button>
+            <Link href={`/leagues/${league.id}`}>
+              <button>{league.name}</button>
+            </Link>
           </li>
         ))}
       </ul>
-      {selectedLeague && <LeagueDetails leagueId={selectedLeague} />}
     </div>
   );
 }
