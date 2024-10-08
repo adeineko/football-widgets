@@ -1,7 +1,5 @@
 # Football Widgets
 
-A Next.js web application that displays football widgets with automatic score updates. Users can select a league to view its calendar and ranking, with real-time updates to get the latest scores.
-
 ## Features
 
 - **League Selection**: Choose from a list of available football leagues.
@@ -47,16 +45,6 @@ A Next.js web application that displays football widgets with automatic score up
    - **View Calendar**: Navigate through matchdays to see scheduled matches and scores.
    - **Check Rankings**: View the league standings and team statistics.
 
-## Project Structure
-
-- **pages/**: Next.js page components.
-  - **index.js**: Home page with league selection.
-  - **league/[leagueId].js**: Dynamic league details page.
-- **components/**: Reusable React components.
-  - **Calendar.js**: Displays the match calendar.
-  - **Ranking.js**: Shows league rankings.
-- **styles/**: CSS files for styling.
-- **public/**: Static assets.
 
 ## API Reference
 
@@ -86,17 +74,9 @@ This application utilizes the Sportify API provided by Mediahuis Group.
   GET /api/v1/phases/{phaseId}/ranking?lang=nl
   ```
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request to discuss improvements.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Contact
 
-For any questions or feedback, please contact [your-email@example.com](mailto:your-email@example.com).
+For any questions or feedback, please contact [adeineko10@gmail.com](mailto:your-email@example.com).
 
 ## Acknowledgments
 
