@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Header from '@/components/header';
+import LeagueGrid from '@/components/leagueGrid';
 
-interface LeaguesType {
+export interface LeaguesType {
   id: number;
   sourceId: string;
   name: string;
 }
-interface LeagueType {
+export interface LeagueType {
   leagues: LeaguesType[];
 }
 
@@ -40,17 +42,22 @@ export default function LeaguesPage() {
   }
 
   return (
-    <div>
-      <h1>Select a League</h1>
-      <ul>
-        {leagues.map((league) => (
-          <li key={league.id}>
-            <Link href={`/leagues/${league.id}`}>
-              <button>{league.name}</button>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Header />
+      {/* <div>
+        <h1>Select a League</h1>
+        <ul>
+          {leagues.map((league) => (
+            <li key={league.id}>
+              <Link href={`/leagues/${league.id}`}>
+                <button>{league.name}</button>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div> */}
+      <LeagueGrid leagues={leagues} />
+    </>
+
   );
 }
