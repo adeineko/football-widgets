@@ -1,43 +1,47 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import * as React from 'react';
+import PhaseRanking from './phaseRanking';
 
 export default function LeagueDetails({ params }: { params: { id: number } }) {
+  
   const leagueId = params.id;
   const [phases, setPhases] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadingPhases, setLoadingPhases] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchPhases() {
-      setLoading(true);
+      setLoadingPhases(true);
       try {
-        const res = await fetch(`https://sportify.mediahuisgroup.com/api/v1/leagues/${leagueId}/phases?lang=nl`);
+        const res = await fetch(
+          `https://sportify.mediahuisgroup.com/api/v1/leagues/${leagueId}/phases?lang=nl`
+        );
         const data = await res.json();
         setPhases(data.phases);
-        setLoading(false);
       } catch (err) {
-        setError('Failed to load');
-        setLoading(false);
+        setError('Failed to load phases');
+      } finally {
+        setLoadingPhases(false);
       }
     }
     fetchPhases();
   }, [leagueId]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
 
+  if (loadingPhases) return <div>Loading phases...</div>;
+  if (!phases || phases.length < 1) return <div>404</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
-      <h1>Phases for {leagueId}</h1>
+      <h1>Phases for League {leagueId}</h1>
       <ul>
         {phases.map((phase) => (
           <li key={phase.id}>
-            <Link href={`/leagues/${leagueId}/phases/${phase.id}`}>
-              <button>{phase.name}</button>
-            </Link>
+            <h2>{phase.name}</h2>
+            <PhaseRanking id={phase.id} />
           </li>
         ))}
       </ul>
