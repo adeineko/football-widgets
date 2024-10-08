@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import * as React from 'react';
-import PhaseRanking from './phaseRanking';
+import PhaseDetails from '@/components/phaseDetailsNavBar';
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface PhaseType {
   id: number;
@@ -46,10 +48,18 @@ export default function LeagueDetails({ params }: { params: { id: number } }) {
       <h1>Phases for League {leagueId}</h1>
       <ul>
         {phases.map((phase) => (
-          <li key={phase.id}>
-            <h2>{phase.name}</h2>
-            <PhaseRanking id={phase.id} />
-          </li>
+          <Accordion key={phase.id}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={`panel-${phase.id}-content`}
+              id={`panel-${phase.id}-header`}
+            >
+              <Typography>{phase.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <PhaseDetails id={phase.id} name={phase.name} />
+            </AccordionDetails>
+          </Accordion>
         ))}
       </ul>
     </div>

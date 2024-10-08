@@ -1,9 +1,7 @@
-// PhaseDetails.tsx
 import React, { useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import PhaseRanking from '@/app/leagues/[id]/phaseRanking';
-import Matches from '@/app/leagues/[id]/matches';
-
+import Matches from '@/app/leagues/[id]/matchesCalendar';
 
 interface PhaseDetailsProps {
   id: number;
@@ -11,7 +9,7 @@ interface PhaseDetailsProps {
 }
 
 export default function PhaseDetails({ id, name }: PhaseDetailsProps) {
-  const [tabIndex, setTabIndex] = useState(0); // Index of the selected tab
+  const [tabIndex, setTabIndex] = useState(0); 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
