@@ -51,19 +51,21 @@ export default function PhaseRanking({ id, name }: PhaseRankingProps) {
         const rankingData = (await res.json()) as RankingsType;
 
         setRankingsData(rankingData);
-      } catch (err) {
-        setError(`Failed to load rankings for phase ${name}`);
+      } catch (err: any) {
+        setError(`Failed to load rankings for phase ${name}: ${err.message}`);
       } finally {
         setLoadingRankings(false);
       }
     }
     fetchRanking();
-  }, [id]);
+  }, [id, name]);
 
   if (loadingRankings) return <div>Loading phases...</div>;
-  if (!rankingsData) return <div>404</div>;
   if (error) return <div>{error}</div>;
-
+  if (!rankingsData || rankingsData.ranking.length === 0) {
+    return <div>No rankings data available for this phase.</div>;
+  }
+  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="ranking table">
