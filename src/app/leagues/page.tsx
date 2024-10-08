@@ -3,31 +3,41 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+interface LeaguesType {
+  id: number;
+  sourceId: string;
+  name: string;
+}
+interface LeagueType {
+  leagues: LeaguesType[];
+}
+
 export default function LeaguesPage() {
-  const [leagues, setLeagues] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [leagues, setLeagues] = useState<LeaguesType[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loadingLeagues, setLoadingLeagues] = useState<boolean>(true);
 
   useEffect(() => {
-    // Fetch leagues on page load
     async function fetchLeagues() {
-      setLoading(true);
+      setLoadingLeagues(true);
       try {
         const res = await fetch('https://sportify.mediahuisgroup.com/api/v1/sports/1/leagues?lang=nl');
-        const data = await res.json();
+        const data = (await res.json()) as LeagueType;
         setLeagues(data.leagues);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load leagues');
-        setLoading(false);
+      } catch (err: any) {
+        setError(`Failed to load leagues: ${err.message}`);
+      } finally {
+        setLoadingLeagues(false);
       }
     }
     fetchLeagues();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loadingLeagues) return <div>Loading leagues...</div>;
   if (error) return <div>{error}</div>;
-  if (leagues.length === 0) return <div>No leagues available</div>;
+  if (!leagues || leagues.length === 0) {
+    return <div>No leagues available.</div>;
+  }
 
   return (
     <div>
