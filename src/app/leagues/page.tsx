@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Header from '@/components/header';
 import LeagueGrid from '@/components/leagueGrid';
 
@@ -44,20 +43,7 @@ export default function LeaguesPage() {
   return (
     <>
       <Header />
-      {/* <div>
-        <h1>Select a League</h1>
-        <ul>
-          {leagues.map((league) => (
-            <li key={league.id}>
-              <Link href={`/leagues/${league.id}`}>
-                <button>{league.name}</button>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div> */}
       <LeagueGrid leagues={leagues} />
     </>
-
   );
 }
