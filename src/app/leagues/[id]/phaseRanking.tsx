@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-type RankType = {
+interface RankType  {
   team: {
     name: string;
     logoUrl: string;
@@ -23,7 +23,7 @@ type RankType = {
   diffGoals: number;
 };
 
-type RankingsType = {
+interface RankingsType  {
   phaseId: number;
   phaseName: string;
   ranking: RankType[];
@@ -34,11 +34,12 @@ interface PhaseRankingProps {
   name?: string;
 }
 
-export default function PhaseRanking({ id }: PhaseRankingProps) {
+export default function PhaseRanking({ id, name }: PhaseRankingProps) {
 
-  // State to hold rankings for each phase
   const [rankingsData, setRankingsData] = useState<RankingsType>();
   const [loadingRankings, setLoadingRankings] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
 
@@ -51,7 +52,7 @@ export default function PhaseRanking({ id }: PhaseRankingProps) {
 
         setRankingsData(rankingData);
       } catch (err) {
-        setError(`Failed to load rankings for phase ${phase.name}`);
+        setError(`Failed to load rankings for phase ${name}`);
       } finally {
         setLoadingRankings(false);
       }
@@ -61,8 +62,8 @@ export default function PhaseRanking({ id }: PhaseRankingProps) {
 
   if (loadingRankings) return <div>Loading phases...</div>;
   if (!rankingsData) return <div>404</div>;
+  if (error) return <div>{error}</div>;
 
-  // <div>No ranking data available for {phase.name}.</div>
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="ranking table">

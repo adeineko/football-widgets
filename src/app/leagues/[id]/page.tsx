@@ -4,10 +4,17 @@ import { useState, useEffect } from 'react';
 import * as React from 'react';
 import PhaseRanking from './phaseRanking';
 
+interface PhaseType {
+  id: number;
+  name: string;
+  order: number;
+  matchdays: number;
+  lastMatchday: number;
+}
 export default function LeagueDetails({ params }: { params: { id: number } }) {
-  
+
   const leagueId = params.id;
-  const [phases, setPhases] = useState([]);
+  const [phases, setPhases] = useState<PhaseType[]>();
   const [loadingPhases, setLoadingPhases] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,8 +27,8 @@ export default function LeagueDetails({ params }: { params: { id: number } }) {
         );
         const data = await res.json();
         setPhases(data.phases);
-      } catch (err) {
-        setError('Failed to load phases');
+      } catch (err: any) {
+        setError(`Failed to load phases: ${err.message}`);
       } finally {
         setLoadingPhases(false);
       }
