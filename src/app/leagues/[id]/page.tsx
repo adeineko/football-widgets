@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
 import PhaseDetails from '@/components/phaseDetailsNavBar';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { LeaguesType } from '../page';
+import Header from '@/components/header';
 
 interface PhaseType {
   id: number;
@@ -13,9 +15,11 @@ interface PhaseType {
   matchdays: number;
   lastMatchday: number;
 }
+
 export default function LeagueDetails({ params }: { params: { id: number } }) {
 
   const leagueId = params.id;
+  const [league, setLeague] = useState<LeaguesType>();
   const [phases, setPhases] = useState<PhaseType[]>();
   const [loadingPhases, setLoadingPhases] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,24 +48,40 @@ export default function LeagueDetails({ params }: { params: { id: number } }) {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h1>Phases for League {leagueId}</h1>
-      <ul>
-        {phases.map((phase) => (
-          <Accordion key={phase.id}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls={`panel-${phase.id}-content`}
-              id={`panel-${phase.id}-header`}
-            >
-              <Typography>{phase.name}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <PhaseDetails id={phase.id} name={phase.name} />
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Header />
+      <Container sx={{ py: 4 }}>
+          <Typography
+            variant="h4"
+            noWrap
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              textDecoration: 'none',
+              color: 'black'
+            }}
+          >
+            Phases for
+          </Typography>
+          {phases.map((phase) => (
+            <Accordion key={phase.id}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panel-${phase.id}-content`}
+                id={`panel-${phase.id}-header`}
+              >
+                <Typography variant="h6">{phase.name}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <PhaseDetails id={phase.id} name={phase.name} />
+              </AccordionDetails>
+            </Accordion>
+          ))}
+      </Container>
+    </>
+
   );
 }
