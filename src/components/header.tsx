@@ -53,7 +53,7 @@ export default function Header() {
         <AppBar position="static" color='default'>
             <Toolbar>
                 <SportsSoccerIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                <Link href="/leagues" passHref>
+                <Link href="/" passHref>
                     <Typography
                         variant="h6"
                         noWrap
