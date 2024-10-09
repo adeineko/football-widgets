@@ -46,7 +46,7 @@ export default function LeagueDetails({ params }: { params: { id: number, league
 
 
   if (loadingPhases) return <div>Loading phases...</div>;
-  if (!phases || phases.length < 1) return <div>404</div>;
+  // if (!phases || phases.length < 1) return <div>404</div>;
   if (error) return <div>{error}</div>;
 
   return (
