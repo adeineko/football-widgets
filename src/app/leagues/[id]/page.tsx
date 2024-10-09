@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
 import PhaseDetails from '@/components/phaseDetailsNavBar';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, Box } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Container } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Header from '@/components/header';
 import { useSearchParams } from 'next/navigation';
@@ -34,8 +34,12 @@ export default function LeagueDetails({ params }: { params: { id: number, league
         );
         const data = await res.json();
         setPhases(data.phases);
-      } catch (err: any) {
-        setError(`Failed to load phases: ${err.message}`);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(`Failed to load phases: ${err.message}`);
+        } else {
+          setError('Failed to load phases: An unknown error occurred.');
+        }
       } finally {
         setLoadingPhases(false);
       }

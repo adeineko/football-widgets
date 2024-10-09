@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-interface RankType  {
+interface RankType {
   team: {
     name: string;
     logoUrl: string;
@@ -23,7 +23,7 @@ interface RankType  {
   diffGoals: number;
 };
 
-interface RankingsType  {
+interface RankingsType {
   phaseId: number;
   phaseName: string;
   ranking: RankType[];
@@ -51,8 +51,12 @@ export default function PhaseRanking({ id, name }: PhaseRankingProps) {
         const rankingData = (await res.json()) as RankingsType;
 
         setRankingsData(rankingData);
-      } catch (err: any) {
-        setError(`Failed to load rankings for phase ${name}: ${err.message}`);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(`Failed to load ranking: ${err.message}`);
+        } else {
+          setError('Failed to load ranking: An unknown error occurred.');
+        }
       } finally {
         setLoadingRankings(false);
       }
@@ -65,7 +69,7 @@ export default function PhaseRanking({ id, name }: PhaseRankingProps) {
   if (!rankingsData || rankingsData.ranking.length === 0) {
     return <div>No rankings data available for this phase.</div>;
   }
-  
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="ranking table">

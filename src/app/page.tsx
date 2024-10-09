@@ -26,8 +26,12 @@ export default function LeaguesPage() {
         const res = await fetch('https://sportify.mediahuisgroup.com/api/v1/sports/1/leagues?lang=nl');
         const data = (await res.json()) as LeagueType;
         setLeagues(data.leagues);
-      } catch (err: any) {
-        setError(`Failed to load leagues: ${err.message}`);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(`Failed to load leagues: ${err.message}`);
+        } else {
+          setError('Failed to load leagues: An unknown error occurred.');
+        }
       } finally {
         setLoadingLeagues(false);
       }

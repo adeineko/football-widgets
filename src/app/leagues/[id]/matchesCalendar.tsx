@@ -46,8 +46,12 @@ export default function Matches({ id, name }: PhaseCalendarProps) {
         );
         const data = (await res.json()) as MatchesDataType;
         setMatchesData(data);
-      } catch (err: any) {
-        setError(`Failed to load matches for phase ${name}: ${err.message}`);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(`Failed to load matches: ${err.message}`);
+        } else {
+          setError('Failed to load matches: An unknown error occurred.');
+        }
       } finally {
         setLoadingMatches(false);
       }
