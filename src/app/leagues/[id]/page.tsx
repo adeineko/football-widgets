@@ -5,7 +5,6 @@ import * as React from 'react';
 import PhaseDetails from '@/components/phaseDetailsNavBar';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LeaguesType } from '../../page';
 import Header from '@/components/header';
 import { useSearchParams } from 'next/navigation';
 
@@ -46,8 +45,8 @@ export default function LeagueDetails({ params }: { params: { id: number, league
 
 
   if (loadingPhases) return <div>Loading phases...</div>;
-  // if (!phases || phases.length < 1) return <div>404</div>;
   if (error) return <div>{error}</div>;
+  if (!phases || phases.length < 1) throw "Error";
 
   return (
     <>
@@ -68,7 +67,7 @@ export default function LeagueDetails({ params }: { params: { id: number, league
           }}>
           {leagueNameFromQuery}
         </Typography>
-        {phases.map((phase) => (
+        {phases?.map((phase) => (
           <Accordion key={phase.id}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -84,6 +83,5 @@ export default function LeagueDetails({ params }: { params: { id: number, league
         ))}
       </Container>
     </>
-
   );
 }
