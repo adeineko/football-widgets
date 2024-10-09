@@ -7,6 +7,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography, Container, B
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { LeaguesType } from '../../page';
 import Header from '@/components/header';
+import { useSearchParams } from 'next/navigation';
 
 interface PhaseType {
   id: number;
@@ -16,12 +17,14 @@ interface PhaseType {
   lastMatchday: number;
 }
 
-export default function LeagueDetails({ params }: { params: { id: number } }) {
+export default function LeagueDetails({ params }: { params: { id: number, leagueName: string } }) {
 
   const leagueId = params.id;
   const [phases, setPhases] = useState<PhaseType[]>();
   const [loadingPhases, setLoadingPhases] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const leagueNameFromQuery = searchParams.get('leagueName') || '';
 
   useEffect(() => {
     async function fetchPhases() {
@@ -49,21 +52,36 @@ export default function LeagueDetails({ params }: { params: { id: number } }) {
   return (
     <>
       <Header />
+
       <Container sx={{ py: 4 }}>
-          {phases.map((phase) => (
-            <Accordion key={phase.id}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel-${phase.id}-content`}
-                id={`panel-${phase.id}-header`}
-              >
-                <Typography variant="h6">{phase.name}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <PhaseDetails id={phase.id} name={phase.name} />
-              </AccordionDetails>
-            </Accordion>
-          ))}
+        <Typography variant="h4"
+          noWrap
+          component="a"
+          sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'black',
+            textDecoration: 'none',
+          }}>
+          {leagueNameFromQuery}
+        </Typography>
+        {phases.map((phase) => (
+          <Accordion key={phase.id}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={`panel-${phase.id}-content`}
+              id={`panel-${phase.id}-header`}
+            >
+              <Typography variant="h6">{phase.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <PhaseDetails id={phase.id} name={phase.name} />
+            </AccordionDetails>
+          </Accordion>
+        ))}
       </Container>
     </>
 

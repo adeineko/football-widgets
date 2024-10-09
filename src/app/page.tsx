@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/header';
 import LeagueGrid from '@/components/leagueGrid';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
-
 
 
 export interface LeaguesType {
@@ -21,9 +18,6 @@ export default function LeaguesPage() {
   const [leagues, setLeagues] = useState<LeaguesType[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingLeagues, setLoadingLeagues] = useState<boolean>(true);
-  const searchParams = useSearchParams();
-  const leagueNameFromQuery = searchParams.get('leagueName') || '';
- 
 
   useEffect(() => {
     async function fetchLeagues() {
@@ -39,7 +33,7 @@ export default function LeaguesPage() {
       }
     }
     fetchLeagues();
-  }, [leagueNameFromQuery]);
+  }, []);
 
   if (loadingLeagues) return <div>Loading leagues...</div>;
   if (error) return <div>{error}</div>;
