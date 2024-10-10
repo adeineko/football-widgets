@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 
-
 interface MatchType {
   teamHome: string;
   teamGuest: string;
@@ -46,7 +45,8 @@ export default function Matches({ id, name }: PhaseCalendarProps) {
         );
         const data = (await res.json()) as MatchesDataType;
         setMatchesData(data);
-      } catch (err) {
+        setError(null); 
+      } catch (err: unknown) {
         if (err instanceof Error) {
           setError(`Failed to load matches: ${err.message}`);
         } else {
@@ -56,7 +56,14 @@ export default function Matches({ id, name }: PhaseCalendarProps) {
         setLoadingMatches(false);
       }
     }
-    fetchMatches();
+
+    fetchMatches(); 
+
+    const interval = setInterval(fetchMatches, 60000); 
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [id, name]);
 
   if (loadingMatches) return <div>Loading matches...</div>;
