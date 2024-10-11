@@ -3,7 +3,7 @@
 ## Features
 
 - **League Selection**: Choose from a list of available football leagues.
-- **Live Score Updates**: Automatic refreshing to display the most recent scores.
+- **Score Updates**: Automatic refreshing to display the most recent scores.
 - **Match Calendar**: View matches for each matchday, including teams, scores, dates, and times.
 - **League Rankings**: See team positions, total points, wins, losses, draws, and games played.
 - **Robust States Handling**: User-friendly messages during loading, errors, or when data is unavailable.
@@ -82,5 +82,3 @@ For any questions or feedback, please contact [adeineko10@gmail.com](mailto:your
 
 - [Next.js](https://nextjs.org/)
 - [React](https://reactjs.org/)
-- [Sportify API by Mediahuis Group](https://sportify.mediahuisgroup.com/)
-
